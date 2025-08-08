@@ -5,19 +5,36 @@
 	let showDebug = false;
 	let debugButton: HTMLButtonElement;
 	
+	// Safe access to authState
+	$: safeAuthState = $authState || { 
+		isAuthenticated: false, 
+		isLoading: false, 
+		user: null 
+	};
+	
 	function toggleDebug() {
 		console.log('Debug button clicked! Current showDebug:', showDebug);
 		showDebug = !showDebug;
 		console.log('New showDebug state:', showDebug);
-		console.log('AuthState:', $authState);
+		console.log('AuthState raw:', $authState);
+		console.log('AuthState safe:', safeAuthState);
 	}
 
-	onMount(() => {
+	onMount(async () => {
 		// Force button to be on top
 		if (debugButton) {
 			debugButton.style.zIndex = '999999';
 			debugButton.style.pointerEvents = 'auto';
 			console.log('Debug button mounted and configured');
+		}
+		
+		// Initialize auth state
+		try {
+			const { fetchUserInfo } = await import('$lib/stores/auth');
+			await fetchUserInfo();
+			console.log('Auth state initialized:', $authState);
+		} catch (error) {
+			console.error('Auth initialization error:', error);
 		}
 	});
 </script>
@@ -33,32 +50,39 @@
 		<div class="space-y-2 text-xs">
 			<div>
 				<strong>Is Authenticated:</strong> 
-				<span class="{$authState.isAuthenticated ? 'text-green-400' : 'text-red-400'}">
-					{$authState.isAuthenticated}
+				<span class="{safeAuthState.isAuthenticated ? 'text-green-400' : 'text-red-400'}">
+					{safeAuthState.isAuthenticated}
 				</span>
 			</div>
 			
 			<div>
 				<strong>Is Loading:</strong> 
-				<span class="{$authState.isLoading ? 'text-yellow-400' : 'text-gray-400'}">
-					{$authState.isLoading}
+				<span class="{safeAuthState.isLoading ? 'text-yellow-400' : 'text-gray-400'}">
+					{safeAuthState.isLoading}
 				</span>
 			</div>
 			
-			{#if $authState.user}
+			<div>
+				<strong>Raw AuthState:</strong> 
+				<pre class="text-xs bg-gray-800 p-2 rounded mt-1 overflow-auto">
+					{JSON.stringify($authState, null, 2) || 'undefined'}
+				</pre>
+			</div>
+			
+			{#if safeAuthState.user}
 				<div>
-					<strong>User ID:</strong> {$authState.user.userId || 'N/A'}
+					<strong>User ID:</strong> {safeAuthState.user.userId || 'N/A'}
 				</div>
 				<div>
-					<strong>User Details:</strong> {$authState.user.userDetails || 'N/A'}
+					<strong>User Details:</strong> {safeAuthState.user.userDetails || 'N/A'}
 				</div>
 				<div>
-					<strong>Identity Provider:</strong> {$authState.user.identityProvider || 'N/A'}
+					<strong>Identity Provider:</strong> {safeAuthState.user.identityProvider || 'N/A'}
 				</div>
 				<div>
 					<strong>User Roles:</strong> 
-					{#if $authState.user.userRoles && $authState.user.userRoles.length > 0}
-						{$authState.user.userRoles.join(', ')}
+					{#if safeAuthState.user.userRoles && safeAuthState.user.userRoles.length > 0}
+						{safeAuthState.user.userRoles.join(', ')}
 					{:else}
 						<span class="text-yellow-400">No roles assigned</span>
 					{/if}
@@ -90,6 +114,7 @@
 <!-- Always visible status indicator -->
 <div class="fixed top-4 left-4 bg-blue-900 bg-opacity-90 text-white p-3 rounded text-xs z-[99998] border border-blue-300">
 	<div>showDebug: {showDebug}</div>
-	<div>Auth Loading: {$authState.isLoading}</div>
-	<div>Auth Status: {$authState.isAuthenticated}</div>
+	<div>Auth Loading: {safeAuthState.isLoading}</div>
+	<div>Auth Status: {safeAuthState.isAuthenticated}</div>
+	<div>Raw Auth: {$authState ? 'defined' : 'undefined'}</div>
 </div>
