@@ -42,6 +42,12 @@
 	});
 </script>
 
+<!-- Always visible test panel -->
+<div class="fixed top-20 right-4 bg-green-600 text-white p-4 rounded-lg text-sm max-w-md z-[99999] border-4 border-red-400">
+	<h3 class="font-bold">ALWAYS VISIBLE TEST PANEL</h3>
+	<div>showDebug: {showDebug}</div>
+</div>
+
 {#if showDebug}
 	<!-- Debug panel with high visibility -->
 	<div class="fixed top-4 right-4 bg-red-900 bg-opacity-95 text-white p-6 rounded-lg text-sm max-w-md z-[99999] border-4 border-yellow-400">
