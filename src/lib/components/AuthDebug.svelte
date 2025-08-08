@@ -52,58 +52,58 @@
 
 {#if showDebug}
 	<!-- Debug panel with high visibility -->
-	<div class="fixed top-4 right-4 bg-red-900 bg-opacity-95 text-white p-6 rounded-lg text-sm max-w-md z-[99999] border-4 border-yellow-400">
+	<div class="fixed top-4 right-4 p-6 rounded-lg text-sm max-w-md border-4" style="background-color: #1f2937 !important; color: white !important; z-index: 99999 !important; border-color: yellow !important;">
 		<div class="flex justify-between items-center mb-2">
-			<h3 class="font-bold">Auth Debug Info</h3>
-			<button on:click={toggleDebug} class="text-red-400 hover:text-red-300">✕</button>
+			<h3 class="font-bold" style="color: white !important;">Auth Debug Info</h3>
+			<button on:click={toggleDebug} style="color: #ef4444 !important;">✕</button>
 		</div>
 		
-		<div class="space-y-2 text-xs">
-			<div>
-				<strong>Is Authenticated:</strong> 
-				<span class="{$authState?.isAuthenticated ? 'text-green-400' : 'text-red-400'}">
+		<div class="space-y-2 text-xs" style="color: white !important;">
+			<div style="color: white !important;">
+				<strong style="color: white !important;">Is Authenticated:</strong> 
+				<span style="color: {$authState?.isAuthenticated ? '#10b981' : '#ef4444'} !important;">
 					{$authState?.isAuthenticated || false}
 				</span>
 			</div>
 			
-			<div>
-				<strong>Is Loading:</strong> 
-				<span class="{$authState?.isLoading ? 'text-yellow-400' : 'text-gray-400'}">
+			<div style="color: white !important;">
+				<strong style="color: white !important;">Is Loading:</strong> 
+				<span style="color: {$authState?.isLoading ? '#f59e0b' : '#9ca3af'} !important;">
 					{$authState?.isLoading || false}
 				</span>
 			</div>
 			
-			<div>
-				<strong>Raw AuthState:</strong> 
-				<pre class="text-xs bg-gray-800 p-2 rounded mt-1 overflow-auto max-h-32">
+			<div style="color: white !important;">
+				<strong style="color: white !important;">Raw AuthState:</strong> 
+				<pre class="text-xs p-2 rounded mt-1 overflow-auto max-h-32" style="background-color: #374151 !important; color: #e5e7eb !important;">
 					{JSON.stringify($authState, null, 2) || 'undefined'}
 				</pre>
 			</div>
 			
 			{#if $authState?.user}
-				<div>
-					<strong>User ID:</strong> {$authState.user.userId || 'N/A'}
+				<div style="color: white !important;">
+					<strong style="color: white !important;">User ID:</strong> {$authState.user.userId || 'N/A'}
 				</div>
-				<div>
-					<strong>User Details:</strong> {$authState.user.userDetails || 'N/A'}
+				<div style="color: white !important;">
+					<strong style="color: white !important;">User Details:</strong> {$authState.user.userDetails || 'N/A'}
 				</div>
-				<div>
-					<strong>Identity Provider:</strong> {$authState.user.identityProvider || 'N/A'}
+				<div style="color: white !important;">
+					<strong style="color: white !important;">Identity Provider:</strong> {$authState.user.identityProvider || 'N/A'}
 				</div>
-				<div>
-					<strong>User Roles:</strong> 
+				<div style="color: white !important;">
+					<strong style="color: white !important;">User Roles:</strong> 
 					{#if $authState.user.userRoles && $authState.user.userRoles.length > 0}
-						{$authState.user.userRoles.join(', ')}
+						<span style="color: white !important;">{$authState.user.userRoles.join(', ')}</span>
 					{:else}
-						<span class="text-yellow-400">No roles assigned</span>
+						<span style="color: #f59e0b !important;">No roles assigned</span>
 					{/if}
 				</div>
 			{:else}
-				<div class="text-red-400">No user data available</div>
+				<div style="color: #ef4444 !important;">No user data available</div>
 			{/if}
 			
-			<div class="pt-2 border-t border-gray-600">
-				<strong>Current URL:</strong> {typeof window !== 'undefined' ? window.location.href : 'SSR'}
+			<div class="pt-2" style="border-top: 1px solid #6b7280; color: white !important;">
+				<strong style="color: white !important;">Current URL:</strong> <span style="color: white !important;">{typeof window !== 'undefined' ? window.location.href : 'SSR'}</span>
 			</div>
 		</div>
 	</div>
