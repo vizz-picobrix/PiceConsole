@@ -4,7 +4,9 @@
 	let showDropdown = false;
 	
 	function toggleDropdown() {
+		console.log('Dropdown toggle clicked, current state:', showDropdown);
 		showDropdown = !showDropdown;
+		console.log('Dropdown new state:', showDropdown);
 	}
 	
 	function handleLogout() {
@@ -30,7 +32,7 @@
 		</button>
 		
 		{#if showDropdown}
-			<div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50">
+			<div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5" style="z-index: 9999;">
 				<div class="py-1">
 					<div class="px-4 py-2 text-sm text-gray-900 border-b border-gray-200">
 						<p class="font-medium">{$authState.user.userDetails}</p>
@@ -50,4 +52,7 @@
 	</div>
 {/if}
 
-<svelte:window on:click={() => showDropdown = false} />
+<svelte:window on:click={(e) => {
+	console.log('Window clicked, closing dropdown');
+	showDropdown = false;
+}} />
