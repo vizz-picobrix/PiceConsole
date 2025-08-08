@@ -6,7 +6,7 @@
 	<title>Analytics - PiceConsole</title>
 </svelte:head>
 
-<AuthGuard requireOperator={true}>
+<AuthGuard>
 	<div class="space-y-6">
 		<h1 class="text-2xl font-bold text-gray-900">Analytics Dashboard</h1>
 		
