@@ -5,6 +5,9 @@
 	import AuthDebug from '$lib/components/AuthDebug.svelte';
 </script>
 
+<!-- AuthDebug should be outside AuthGuard to always be visible -->
+<AuthDebug />
+
 <AuthGuard>
 	<div class="min-h-screen bg-gray-50">
 		<Header />
@@ -13,5 +16,3 @@
 		</main>
 	</div>
 </AuthGuard>
-
-<AuthDebug />
