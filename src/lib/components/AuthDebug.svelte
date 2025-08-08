@@ -9,7 +9,7 @@
 </script>
 
 {#if showDebug}
-	<div class="fixed bottom-4 right-4 bg-black bg-opacity-80 text-white p-4 rounded-lg text-sm max-w-md z-50">
+	<div class="fixed bottom-4 right-4 bg-black bg-opacity-80 text-white p-4 rounded-lg text-sm max-w-md z-[9999]">
 		<div class="flex justify-between items-center mb-2">
 			<h3 class="font-bold">Auth Debug Info</h3>
 			<button on:click={toggleDebug} class="text-red-400 hover:text-red-300">✕</button>
@@ -62,8 +62,7 @@
 <!-- Always visible debug button - higher z-index -->
 <button 
 	on:click={toggleDebug}
-	class="fixed bottom-4 left-4 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-full text-xs shadow-lg"
-	style="z-index: 9999;"
+	class="fixed bottom-4 left-4 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-full text-xs shadow-lg z-[9999]"
 	title="Toggle Auth Debug"
 >
 	🔧

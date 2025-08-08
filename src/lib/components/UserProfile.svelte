@@ -32,7 +32,7 @@
 		</button>
 		
 		{#if showDropdown}
-			<div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5" style="z-index: 9999;">
+			<div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-[9998]">
 				<div class="py-1">
 					<div class="px-4 py-2 text-sm text-gray-900 border-b border-gray-200">
 						<p class="font-medium">{$authState.user.userDetails}</p>
@@ -53,6 +53,8 @@
 {/if}
 
 <svelte:window on:click={(e) => {
-	console.log('Window clicked, closing dropdown');
-	showDropdown = false;
+	if (showDropdown && !e.target.closest('.relative')) {
+		console.log('Window clicked outside dropdown, closing');
+		showDropdown = false;
+	}
 }} />
