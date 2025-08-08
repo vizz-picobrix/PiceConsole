@@ -1,11 +1,23 @@
 <script lang="ts">
 	import { authState } from '$lib/stores/auth';
+	import { onMount } from 'svelte';
 	
 	let showDebug = false;
+	let debugButton: HTMLButtonElement;
 	
 	function toggleDebug() {
+		console.log('Debug button clicked!');
 		showDebug = !showDebug;
 	}
+
+	onMount(() => {
+		// Force button to be on top
+		if (debugButton) {
+			debugButton.style.zIndex = '999999';
+			debugButton.style.pointerEvents = 'auto';
+			console.log('Debug button mounted and configured');
+		}
+	});
 </script>
 
 {#if showDebug}
@@ -61,8 +73,12 @@
 
 <!-- Always visible debug button - center of screen -->
 <button 
+	bind:this={debugButton}
 	on:click={toggleDebug}
-	class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-600 hover:bg-red-700 text-white px-4 py-4 rounded-full text-lg shadow-xl z-[9999] border-4 border-white"
+	on:mousedown={toggleDebug}
+	on:touchstart={toggleDebug}
+	class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-600 hover:bg-red-700 text-white px-6 py-6 rounded-full text-xl font-bold shadow-2xl border-4 border-white cursor-pointer select-none"
+	style="z-index: 99999 !important; pointer-events: auto !important; user-select: none;"
 	title="Toggle Auth Debug - TEST BUTTON"
 >
 	🔧 DEBUG
