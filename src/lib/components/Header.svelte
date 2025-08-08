@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import UserProfile from './UserProfile.svelte';
 	
 	const navigation = [
-		{ name: 'Home', href: '/' },
-		{ name: 'About', href: '/about' }
+		{ name: 'Dashboard', href: '/' },
+		{ name: 'Game Management', href: '/admin/games' },
+		{ name: 'User Management', href: '/admin/users' },
+		{ name: 'Analytics', href: '/admin/analytics' }
 	];
 </script>
 
@@ -26,6 +29,8 @@
 						{item.name}
 					</a>
 				{/each}
+				
+				<UserProfile />
 			</div>
 		</div>
 	</nav>

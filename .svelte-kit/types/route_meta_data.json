@@ -1,4 +1,8 @@
 {
 	"/": [],
-	"/about": []
+	"/about": [],
+	"/admin/analytics": [],
+	"/admin/games": [],
+	"/admin/users": [],
+	"/unauthorized": []
 }

@@ -25,6 +25,15 @@ function deferred() {
   });
   return { promise, resolve, reject };
 }
+function fallback(value, fallback2, lazy = false) {
+  return value === void 0 ? lazy ? (
+    /** @type {() => V} */
+    fallback2()
+  ) : (
+    /** @type {V} */
+    fallback2
+  ) : value;
+}
 function equals(value) {
   return value === this.v;
 }
@@ -1766,6 +1775,15 @@ function slot(payload, $$props, name, slot_props, fallback_fn) {
     slot_fn(payload, slot_props);
   }
 }
+function bind_props(props_parent, props_now) {
+  for (const key in props_now) {
+    const initial_value = props_parent[key];
+    const value = props_now[key];
+    if (initial_value === void 0 && value !== void 0 && Object.getOwnPropertyDescriptor(props_parent, key)?.set) {
+      props_parent[key] = value;
+    }
+  }
+}
 function ensure_array_like(array_like_or_iterator) {
   if (array_like_or_iterator) {
     return array_like_or_iterator.length !== void 0 ? array_like_or_iterator : Array.from(array_like_or_iterator);
@@ -1778,19 +1796,21 @@ export {
   COMMENT_NODE as C,
   pop as D,
   getContext as E,
-  ensure_array_like as F,
-  attr as G,
+  store_get as F,
+  escape_html as G,
   HYDRATION_ERROR as H,
-  attr_class as I,
-  escape_html as J,
-  stringify as K,
+  unsubscribe_stores as I,
+  ensure_array_like as J,
+  attr as K,
   LEGACY_PROPS as L,
-  store_get as M,
-  unsubscribe_stores as N,
+  attr_class as M,
+  stringify as N,
   slot as O,
   noop as P,
-  safe_not_equal as Q,
-  head as R,
+  head as Q,
+  fallback as R,
+  bind_props as S,
+  safe_not_equal as T,
   set_active_effect as a,
   active_effect as b,
   active_reaction as c,

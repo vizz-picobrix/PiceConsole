@@ -8,6 +8,21 @@
       "_internal.js"
     ]
   },
+  "_AuthGuard.js": {
+    "file": "chunks/AuthGuard.js",
+    "name": "AuthGuard",
+    "imports": [
+      "_index.js",
+      "_auth.js"
+    ]
+  },
+  "_auth.js": {
+    "file": "chunks/auth.js",
+    "name": "auth",
+    "imports": [
+      "_index2.js"
+    ]
+  },
   "_exports.js": {
     "file": "chunks/exports.js",
     "name": "exports"
@@ -69,10 +84,12 @@
     "imports": [
       "_index.js",
       "_exports.js",
-      "_state.svelte.js"
+      "_state.svelte.js",
+      "_auth.js",
+      "_AuthGuard.js"
     ],
     "css": [
-      "_app/immutable/assets/_layout.DKstfnmr.css"
+      "_app/immutable/assets/_layout.B65jYJ5e.css"
     ]
   },
   "src/routes/+page.svelte": {
@@ -81,13 +98,53 @@
     "src": "src/routes/+page.svelte",
     "isEntry": true,
     "imports": [
-      "_index.js"
+      "_index.js",
+      "_auth.js"
     ]
   },
   "src/routes/about/+page.svelte": {
     "file": "entries/pages/about/_page.svelte.js",
     "name": "entries/pages/about/_page.svelte",
     "src": "src/routes/about/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index.js"
+    ]
+  },
+  "src/routes/admin/analytics/+page.svelte": {
+    "file": "entries/pages/admin/analytics/_page.svelte.js",
+    "name": "entries/pages/admin/analytics/_page.svelte",
+    "src": "src/routes/admin/analytics/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index.js",
+      "_AuthGuard.js"
+    ]
+  },
+  "src/routes/admin/games/+page.svelte": {
+    "file": "entries/pages/admin/games/_page.svelte.js",
+    "name": "entries/pages/admin/games/_page.svelte",
+    "src": "src/routes/admin/games/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index.js",
+      "_AuthGuard.js"
+    ]
+  },
+  "src/routes/admin/users/+page.svelte": {
+    "file": "entries/pages/admin/users/_page.svelte.js",
+    "name": "entries/pages/admin/users/_page.svelte",
+    "src": "src/routes/admin/users/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index.js",
+      "_AuthGuard.js"
+    ]
+  },
+  "src/routes/unauthorized/+page.svelte": {
+    "file": "entries/pages/unauthorized/_page.svelte.js",
+    "name": "entries/pages/unauthorized/_page.svelte",
+    "src": "src/routes/unauthorized/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index.js"
