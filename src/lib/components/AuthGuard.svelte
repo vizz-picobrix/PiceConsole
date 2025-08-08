@@ -6,16 +6,32 @@
 
 	export let requireOperator = false;
 
-	onMount(() => {
-		initializeAuth();
+	let mounted = false;
+
+	onMount(async () => {
+		console.log('AuthGuard mounted, requireOperator:', requireOperator);
+		mounted = true;
+		await initializeAuth();
 	});
 
-	$: showContent = $authState.isAuthenticated && (!requireOperator || isOperator());
-	$: showLogin = !$authState.isLoading && !$authState.isAuthenticated;
-	$: showUnauthorized = !$authState.isLoading && $authState.isAuthenticated && requireOperator && !isOperator();
+	$: {
+		if (mounted && $authState) {
+			console.log('AuthGuard state update:', {
+				isLoading: $authState.isLoading,
+				isAuthenticated: $authState.isAuthenticated,
+				requireOperator,
+				userCanOperate: isOperator()
+			});
+		}
+	}
+
+	$: showContent = mounted && $authState.isAuthenticated && (!requireOperator || isOperator());
+	$: showLogin = mounted && !$authState.isLoading && !$authState.isAuthenticated;
+	$: showUnauthorized = mounted && !$authState.isLoading && $authState.isAuthenticated && requireOperator && !isOperator();
+	$: showLoading = !mounted || $authState.isLoading;
 </script>
 
-{#if $authState.isLoading}
+{#if showLoading}
 	<LoadingSpinner />
 {:else if showLogin}
 	<LoginRequired />
@@ -34,4 +50,17 @@
 	</div>
 {:else if showContent}
 	<slot />
+{:else}
+	<div class="min-h-screen flex items-center justify-center bg-gray-50">
+		<div class="max-w-md w-full space-y-8 p-8 text-center">
+			<h2 class="text-2xl font-bold text-gray-900">인증 오류</h2>
+			<p class="text-sm text-gray-600">인증 상태를 확인할 수 없습니다.</p>
+			<button 
+				on:click={() => window.location.reload()} 
+				class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
+			>
+				페이지 새로고침
+			</button>
+		</div>
+	</div>
 {/if}

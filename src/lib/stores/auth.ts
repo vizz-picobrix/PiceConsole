@@ -22,24 +22,33 @@ export const authState: Writable<AuthState> = writable({
 
 export async function fetchUserInfo(): Promise<User | null> {
 	try {
+		console.log('Fetching user info from /.auth/me');
 		const response = await fetch('/.auth/me');
+		console.log('Response status:', response.status, response.statusText);
+		
 		if (!response.ok) {
+			console.log('Response not OK, returning null');
 			return null;
 		}
 		
 		const data = await response.json();
+		console.log('Auth response data:', data);
 		const clientPrincipal = data.clientPrincipal;
 		
 		if (!clientPrincipal) {
+			console.log('No clientPrincipal found, returning null');
 			return null;
 		}
 		
-		return {
+		const user = {
 			userId: clientPrincipal.userId,
 			userDetails: clientPrincipal.userDetails,
 			userRoles: clientPrincipal.userRoles || [],
 			identityProvider: clientPrincipal.identityProvider
 		};
+		
+		console.log('User info extracted:', user);
+		return user;
 	} catch (error) {
 		console.error('Failed to fetch user info:', error);
 		return null;
@@ -47,16 +56,28 @@ export async function fetchUserInfo(): Promise<User | null> {
 }
 
 export async function initializeAuth() {
+	console.log('Initializing auth...');
 	authState.update(state => ({ ...state, isLoading: true }));
 	
-	const user = await fetchUserInfo();
-	
-	authState.update(state => ({
-		...state,
-		user,
-		isAuthenticated: !!user,
-		isLoading: false
-	}));
+	try {
+		const user = await fetchUserInfo();
+		
+		console.log('Auth initialization complete:', { user, isAuthenticated: !!user });
+		authState.update(state => ({
+			...state,
+			user,
+			isAuthenticated: !!user,
+			isLoading: false
+		}));
+	} catch (error) {
+		console.error('Auth initialization failed:', error);
+		authState.update(state => ({
+			...state,
+			user: null,
+			isAuthenticated: false,
+			isLoading: false
+		}));
+	}
 }
 
 export function hasRole(roles: string[]): boolean {
