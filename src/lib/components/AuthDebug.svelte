@@ -6,8 +6,10 @@
 	let debugButton: HTMLButtonElement;
 	
 	function toggleDebug() {
-		console.log('Debug button clicked!');
+		console.log('Debug button clicked! Current showDebug:', showDebug);
 		showDebug = !showDebug;
+		console.log('New showDebug state:', showDebug);
+		console.log('AuthState:', $authState);
 	}
 
 	onMount(() => {
@@ -21,7 +23,8 @@
 </script>
 
 {#if showDebug}
-	<div class="fixed bottom-4 right-4 bg-black bg-opacity-80 text-white p-4 rounded-lg text-sm max-w-md z-[9999]">
+	<!-- Debug panel with high visibility -->
+	<div class="fixed top-4 right-4 bg-red-900 bg-opacity-95 text-white p-6 rounded-lg text-sm max-w-md z-[99999] border-4 border-yellow-400">
 		<div class="flex justify-between items-center mb-2">
 			<h3 class="font-bold">Auth Debug Info</h3>
 			<button on:click={toggleDebug} class="text-red-400 hover:text-red-300">✕</button>
@@ -83,3 +86,10 @@
 >
 	🔧 DEBUG
 </button>
+
+<!-- Always visible status indicator -->
+<div class="fixed top-4 left-4 bg-blue-900 bg-opacity-90 text-white p-3 rounded text-xs z-[99998] border border-blue-300">
+	<div>showDebug: {showDebug}</div>
+	<div>Auth Loading: {$authState.isLoading}</div>
+	<div>Auth Status: {$authState.isAuthenticated}</div>
+</div>
