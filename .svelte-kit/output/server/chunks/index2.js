@@ -1,4 +1,4 @@
-import { P as noop, T as safe_not_equal } from "./index.js";
+import { P as noop, R as safe_not_equal } from "./index.js";
 import "clsx";
 const subscriber_queue = [];
 function readable(value, start) {

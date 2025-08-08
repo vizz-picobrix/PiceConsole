@@ -12,8 +12,7 @@
     "file": "chunks/AuthGuard.js",
     "name": "AuthGuard",
     "imports": [
-      "_index.js",
-      "_auth.js"
+      "_index.js"
     ]
   },
   "_auth.js": {
@@ -89,7 +88,7 @@
       "_AuthGuard.js"
     ],
     "css": [
-      "_app/immutable/assets/_layout.B65jYJ5e.css"
+      "_app/immutable/assets/_layout.BbdS8KWS.css"
     ]
   },
   "src/routes/+page.svelte": {
