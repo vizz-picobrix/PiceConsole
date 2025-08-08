@@ -102,17 +102,23 @@ export function hasRole(roles: string[]): boolean {
 export function isOperator(): boolean {
 	// Allow all authenticated users for testing
 	let currentUser: User | null = null;
-	authState.subscribe(state => {
+	let currentAuthState: AuthState | null = null;
+	
+	const unsubscribe = authState.subscribe(state => {
 		currentUser = state.user;
-	})();
+		currentAuthState = state;
+	});
+	unsubscribe();
 	
 	console.log('isOperator check:', { 
 		hasUser: !!currentUser, 
 		userRoles: currentUser?.userRoles,
-		userDetails: currentUser?.userDetails 
+		userDetails: currentUser?.userDetails,
+		isAuthenticated: currentAuthState?.isAuthenticated,
+		isLoading: currentAuthState?.isLoading
 	});
 	
-	return !!currentUser;
+	return !!currentUser && !!currentAuthState?.isAuthenticated;
 }
 
 export function login() {
