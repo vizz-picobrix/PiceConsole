@@ -5,12 +5,15 @@
 	let showDebug = false;
 	let debugButton: HTMLButtonElement;
 	
-	// Safe access to authState
-	$: safeAuthState = $authState || { 
+	// Safe access to authState - force reactivity
+	$: safeAuthState = $authState ? $authState : { 
 		isAuthenticated: false, 
 		isLoading: false, 
 		user: null 
 	};
+	
+	// Debug reactive statement
+	$: console.log('Reactive update - authState:', $authState, 'safeAuthState:', safeAuthState);
 	
 	function toggleDebug() {
 		console.log('Debug button clicked! Current showDebug:', showDebug);
@@ -50,45 +53,45 @@
 		<div class="space-y-2 text-xs">
 			<div>
 				<strong>Is Authenticated:</strong> 
-				<span class="{safeAuthState.isAuthenticated ? 'text-green-400' : 'text-red-400'}">
-					{safeAuthState.isAuthenticated}
+				<span class="{$authState?.isAuthenticated ? 'text-green-400' : 'text-red-400'}">
+					{$authState?.isAuthenticated || false}
 				</span>
 			</div>
 			
 			<div>
 				<strong>Is Loading:</strong> 
-				<span class="{safeAuthState.isLoading ? 'text-yellow-400' : 'text-gray-400'}">
-					{safeAuthState.isLoading}
+				<span class="{$authState?.isLoading ? 'text-yellow-400' : 'text-gray-400'}">
+					{$authState?.isLoading || false}
 				</span>
 			</div>
 			
 			<div>
 				<strong>Raw AuthState:</strong> 
-				<pre class="text-xs bg-gray-800 p-2 rounded mt-1 overflow-auto">
+				<pre class="text-xs bg-gray-800 p-2 rounded mt-1 overflow-auto max-h-32">
 					{JSON.stringify($authState, null, 2) || 'undefined'}
 				</pre>
 			</div>
 			
-			{#if safeAuthState.user}
+			{#if $authState?.user}
 				<div>
-					<strong>User ID:</strong> {safeAuthState.user.userId || 'N/A'}
+					<strong>User ID:</strong> {$authState.user.userId || 'N/A'}
 				</div>
 				<div>
-					<strong>User Details:</strong> {safeAuthState.user.userDetails || 'N/A'}
+					<strong>User Details:</strong> {$authState.user.userDetails || 'N/A'}
 				</div>
 				<div>
-					<strong>Identity Provider:</strong> {safeAuthState.user.identityProvider || 'N/A'}
+					<strong>Identity Provider:</strong> {$authState.user.identityProvider || 'N/A'}
 				</div>
 				<div>
 					<strong>User Roles:</strong> 
-					{#if safeAuthState.user.userRoles && safeAuthState.user.userRoles.length > 0}
-						{safeAuthState.user.userRoles.join(', ')}
+					{#if $authState.user.userRoles && $authState.user.userRoles.length > 0}
+						{$authState.user.userRoles.join(', ')}
 					{:else}
 						<span class="text-yellow-400">No roles assigned</span>
 					{/if}
 				</div>
 			{:else}
-				<div class="text-red-400">No user data</div>
+				<div class="text-red-400">No user data available</div>
 			{/if}
 			
 			<div class="pt-2 border-t border-gray-600">
