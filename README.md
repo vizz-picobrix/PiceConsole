@@ -8,8 +8,11 @@ A modern SvelteKit application with TypeScript, Tailwind CSS, and Azure Static W
 - 🏷️ **TypeScript** - Type-safe development
 - 🎨 **Tailwind CSS** - Utility-first CSS framework
 - ☁️ **Azure Static Web Apps** - Ready for deployment
+- 🔐 **Azure AD Authentication** - Secure operator access
+- 👨‍💼 **Admin Dashboard** - Game operations management
 - 🧩 **Component-based** - Modular architecture
 - 📱 **Responsive** - Mobile-first design
+- 🛠️ **Debug Tools** - Built-in authentication debugging
 
 ## Project Structure
 
