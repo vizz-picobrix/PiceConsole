@@ -15,7 +15,9 @@
 	// Debug reactive statement
 	$: console.log('Reactive update - authState:', $authState, 'safeAuthState:', safeAuthState);
 	
-	function toggleDebug() {
+	function toggleDebug(event: Event) {
+		event.preventDefault();
+		event.stopPropagation();
 		console.log('Debug button clicked! Current showDebug:', showDebug);
 		showDebug = !showDebug;
 		console.log('New showDebug state:', showDebug);
@@ -43,9 +45,9 @@
 </script>
 
 <!-- Always visible test panel -->
-<div class="fixed top-20 right-4 bg-green-600 text-white p-4 rounded-lg text-sm max-w-md z-[99999] border-4 border-red-400">
-	<h3 class="font-bold">ALWAYS VISIBLE TEST PANEL</h3>
-	<div>showDebug: {showDebug}</div>
+<div class="fixed top-20 right-4 p-4 rounded-lg text-sm max-w-md border-4" style="background-color: green !important; color: white !important; z-index: 99999 !important; border-color: red !important;">
+	<h3 class="font-bold" style="color: white !important;">ALWAYS VISIBLE TEST PANEL</h3>
+	<div style="color: white !important;">showDebug: {showDebug}</div>
 </div>
 
 {#if showDebug}
@@ -111,19 +113,17 @@
 <button 
 	bind:this={debugButton}
 	on:click={toggleDebug}
-	on:mousedown={toggleDebug}
-	on:touchstart={toggleDebug}
-	class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-600 hover:bg-red-700 text-white px-6 py-6 rounded-full text-xl font-bold shadow-2xl border-4 border-white cursor-pointer select-none"
-	style="z-index: 99999 !important; pointer-events: auto !important; user-select: none;"
+	class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-6 py-6 rounded-full text-xl font-bold shadow-2xl cursor-pointer select-none"
+	style="background-color: red !important; color: white !important; z-index: 99999 !important; pointer-events: auto !important; user-select: none !important; border: 4px solid white !important;"
 	title="Toggle Auth Debug - TEST BUTTON"
 >
 	🔧 DEBUG
 </button>
 
 <!-- Always visible status indicator -->
-<div class="fixed top-4 left-4 bg-blue-900 bg-opacity-90 text-white p-3 rounded text-xs z-[99998] border border-blue-300">
-	<div>showDebug: {showDebug}</div>
-	<div>Auth Loading: {safeAuthState.isLoading}</div>
-	<div>Auth Status: {safeAuthState.isAuthenticated}</div>
-	<div>Raw Auth: {$authState ? 'defined' : 'undefined'}</div>
+<div class="fixed top-4 left-4 p-3 rounded text-xs border" style="background-color: blue !important; color: white !important; z-index: 99998 !important; border-color: lightblue !important;">
+	<div style="color: white !important;">showDebug: {showDebug}</div>
+	<div style="color: white !important;">Auth Loading: {safeAuthState.isLoading}</div>
+	<div style="color: white !important;">Auth Status: {safeAuthState.isAuthenticated}</div>
+	<div style="color: white !important;">Raw Auth: {$authState ? 'defined' : 'undefined'}</div>
 </div>
