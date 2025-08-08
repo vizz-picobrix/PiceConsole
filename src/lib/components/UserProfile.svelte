@@ -32,7 +32,7 @@
 		</button>
 		
 		{#if showDropdown}
-			<div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-[9998]">
+			<div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-[9998] max-h-screen overflow-hidden">
 				<div class="py-1">
 					<div class="px-4 py-2 text-sm text-gray-900 border-b border-gray-200">
 						<p class="font-medium">{$authState.user.userDetails}</p>

@@ -59,11 +59,11 @@
 	</div>
 {/if}
 
-<!-- Always visible debug button - higher z-index -->
+<!-- Always visible debug button - center of screen -->
 <button 
 	on:click={toggleDebug}
-	class="fixed bottom-4 left-4 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-full text-xs shadow-lg z-[9999]"
-	title="Toggle Auth Debug"
+	class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-600 hover:bg-red-700 text-white px-4 py-4 rounded-full text-lg shadow-xl z-[9999] border-4 border-white"
+	title="Toggle Auth Debug - TEST BUTTON"
 >
-	🔧
+	🔧 DEBUG
 </button>
