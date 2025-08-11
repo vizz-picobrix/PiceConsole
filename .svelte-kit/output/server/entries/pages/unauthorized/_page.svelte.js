@@ -1,4 +1,4 @@
-import { Q as head } from "../../../chunks/index.js";
+import { S as head } from "../../../chunks/index.js";
 import "clsx";
 function _page($$payload) {
   head($$payload, ($$payload2) => {

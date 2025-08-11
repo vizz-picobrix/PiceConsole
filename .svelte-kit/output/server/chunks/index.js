@@ -1790,6 +1790,9 @@ function ensure_array_like(array_like_or_iterator) {
   }
   return [];
 }
+function maybe_selected(payload, value) {
+  return value === payload.select_value ? " selected" : "";
+}
 export {
   setContext as A,
   BROWSER as B,
@@ -1805,12 +1808,13 @@ export {
   LEGACY_PROPS as L,
   attr_class as M,
   stringify as N,
-  slot as O,
-  noop as P,
-  head as Q,
-  safe_not_equal as R,
-  fallback as S,
-  bind_props as T,
+  fallback as O,
+  slot as P,
+  bind_props as Q,
+  noop as R,
+  head as S,
+  maybe_selected as T,
+  safe_not_equal as U,
   set_active_effect as a,
   active_effect as b,
   active_reaction as c,

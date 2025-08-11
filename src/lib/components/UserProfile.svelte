@@ -8,13 +8,9 @@
 	let isPositioned = false;
 	
 	function toggleDropdown() {
-		console.log('Dropdown toggle clicked, current state:', showDropdown);
-		
 		if (!showDropdown) {
-			// Pre-calculate position before showing
 			isPositioned = false;
 			showDropdown = true;
-			// Use requestAnimationFrame to ensure DOM is updated
 			requestAnimationFrame(() => {
 				positionDropdown();
 				isPositioned = true;
@@ -23,8 +19,6 @@
 			showDropdown = false;
 			isPositioned = false;
 		}
-		
-		console.log('Dropdown new state:', showDropdown);
 	}
 	
 	function positionDropdown() {
@@ -128,7 +122,6 @@
 <svelte:window 
 	on:click={(e) => {
 		if (showDropdown && !e.target.closest('.relative') && !e.target.closest('[style*="position: fixed"]')) {
-			console.log('Window clicked outside dropdown, closing');
 			showDropdown = false;
 		}
 	}}

@@ -50,7 +50,7 @@
 	
 	function handleEditUser(userId: string) {
 		selectedUser = users.find(u => u.id === userId);
-		console.log('Edit user:', selectedUser);
+		// Edit user functionality would go here
 		// TODO: Implement edit functionality
 	}
 	

@@ -1,4 +1,4 @@
-import { Q as head, G as escape_html, D as pop, z as push } from "../../../chunks/index.js";
+import { S as head, G as escape_html, D as pop, z as push } from "../../../chunks/index.js";
 function formatDate(date) {
   return new Intl.DateTimeFormat("en-US", {
     year: "numeric",

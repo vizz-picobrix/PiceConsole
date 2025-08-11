@@ -1,4 +1,4 @@
-import { Q as head, F as store_get, G as escape_html, I as unsubscribe_stores, D as pop, z as push } from "../../chunks/index.js";
+import { S as head, F as store_get, G as escape_html, I as unsubscribe_stores, D as pop, z as push } from "../../chunks/index.js";
 import { a as authState } from "../../chunks/auth.js";
 function _page($$payload, $$props) {
   push();

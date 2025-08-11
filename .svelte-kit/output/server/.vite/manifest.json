@@ -8,13 +8,6 @@
       "_internal.js"
     ]
   },
-  "_AuthGuard.js": {
-    "file": "chunks/AuthGuard.js",
-    "name": "AuthGuard",
-    "imports": [
-      "_index.js"
-    ]
-  },
   "_auth.js": {
     "file": "chunks/auth.js",
     "name": "auth",
@@ -84,11 +77,10 @@
       "_index.js",
       "_exports.js",
       "_state.svelte.js",
-      "_auth.js",
-      "_AuthGuard.js"
+      "_auth.js"
     ],
     "css": [
-      "_app/immutable/assets/_layout.BbdS8KWS.css"
+      "_app/immutable/assets/_layout.CdbGtqnS.css"
     ]
   },
   "src/routes/+page.svelte": {
@@ -117,7 +109,7 @@
     "isEntry": true,
     "imports": [
       "_index.js",
-      "_AuthGuard.js"
+      "_auth.js"
     ]
   },
   "src/routes/admin/games/+page.svelte": {
@@ -127,7 +119,7 @@
     "isEntry": true,
     "imports": [
       "_index.js",
-      "_AuthGuard.js"
+      "_auth.js"
     ]
   },
   "src/routes/admin/users/+page.svelte": {
@@ -137,7 +129,7 @@
     "isEntry": true,
     "imports": [
       "_index.js",
-      "_AuthGuard.js"
+      "_auth.js"
     ]
   },
   "src/routes/unauthorized/+page.svelte": {

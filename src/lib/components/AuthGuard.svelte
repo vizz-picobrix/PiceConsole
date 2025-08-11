@@ -9,21 +9,9 @@
 	let mounted = false;
 
 	onMount(async () => {
-		console.log('AuthGuard mounted, requireOperator:', requireOperator);
 		mounted = true;
 		await initializeAuth();
 	});
-
-	$: {
-		if (mounted && $authState) {
-			console.log('AuthGuard state update:', {
-				isLoading: $authState.isLoading,
-				isAuthenticated: $authState.isAuthenticated,
-				requireOperator,
-				userCanOperate: isOperator()
-			});
-		}
-	}
 
 	$: showContent = mounted && $authState.isAuthenticated && (!requireOperator || isOperator());
 	$: showLogin = mounted && !$authState.isLoading && !$authState.isAuthenticated;

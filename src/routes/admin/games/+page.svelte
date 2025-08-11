@@ -36,7 +36,7 @@
 	}
 	
 	function handleEditGame(gameId: string) {
-		console.log('Edit game:', gameId);
+		// Edit game functionality would go here
 		// TODO: Implement edit functionality
 	}
 	
