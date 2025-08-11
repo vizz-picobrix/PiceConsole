@@ -4,9 +4,7 @@
 	let showDropdown = false;
 	let dropdownElement: HTMLDivElement;
 	let buttonElement: HTMLButtonElement;
-	let dropdownPosition = 'right-0';
-	let dropdownDirection = 'below'; // 'below' or 'above'
-	let maxDropdownHeight = '12rem'; // max-h-48 default
+	let dropdownStyle = '';
 	
 	function toggleDropdown() {
 		console.log('Dropdown toggle clicked, current state:', showDropdown);
@@ -14,54 +12,58 @@
 		console.log('Dropdown new state:', showDropdown);
 		
 		if (showDropdown) {
-			setTimeout(() => adjustDropdownPosition(), 0);
+			setTimeout(() => positionDropdown(), 0);
 		}
 	}
 	
-	function adjustDropdownPosition() {
+	function positionDropdown() {
 		if (!dropdownElement || !buttonElement) return;
 		
 		const buttonRect = buttonElement.getBoundingClientRect();
+		const dropdownRect = dropdownElement.getBoundingClientRect();
 		const viewportWidth = window.innerWidth;
 		const viewportHeight = window.innerHeight;
 		
-		// Check horizontal positioning
 		const dropdownWidth = 192; // w-48 = 12rem = 192px
-		const spaceOnRight = viewportWidth - buttonRect.right;
-		const spaceOnLeft = buttonRect.left;
+		const padding = 8; // 8px padding from viewport edges
 		
-		if (spaceOnRight >= dropdownWidth) {
-			dropdownPosition = 'right-0';
-		} else if (spaceOnLeft >= dropdownWidth) {
-			dropdownPosition = 'left-0';
+		// Calculate horizontal position
+		let left = buttonRect.left;
+		if (left + dropdownWidth > viewportWidth - padding) {
+			// Position from right edge of button
+			left = buttonRect.right - dropdownWidth;
+		}
+		// Ensure it doesn't go off-screen on the left
+		left = Math.max(padding, left);
+		
+		// Calculate vertical position and height
+		const spaceBelow = viewportHeight - buttonRect.bottom - padding;
+		const spaceAbove = buttonRect.top - padding;
+		const contentHeight = 80; // Approximate content height
+		
+		let top: number;
+		let maxHeight: number;
+		
+		if (spaceBelow >= contentHeight || spaceBelow >= spaceAbove) {
+			// Position below button
+			top = buttonRect.bottom + 4;
+			maxHeight = Math.max(80, spaceBelow - 4);
 		} else {
-			// If neither side has enough space, choose the side with more space
-			dropdownPosition = spaceOnRight > spaceOnLeft ? 'right-0' : 'left-0';
+			// Position above button
+			top = Math.max(padding, buttonRect.top - Math.max(80, spaceAbove - 4));
+			maxHeight = buttonRect.top - top - 4;
 		}
 		
-		// Calculate available space and adjust height and position
-		const spaceBelow = viewportHeight - buttonRect.bottom - 16; // 16px margin
-		const spaceAbove = buttonRect.top - 16; // 16px margin
-		const minDropdownHeight = 100; // Minimum height needed for content
+		// Ensure dropdown fits in viewport
+		maxHeight = Math.min(maxHeight, viewportHeight - padding * 2);
 		
-		if (spaceBelow >= minDropdownHeight) {
-			// Position below with limited height
-			dropdownDirection = 'below';
-			maxDropdownHeight = Math.min(spaceBelow, 192) + 'px'; // max 12rem or available space
-		} else if (spaceAbove >= minDropdownHeight) {
-			// Position above with limited height
-			dropdownDirection = 'above';
-			maxDropdownHeight = Math.min(spaceAbove, 192) + 'px';
-		} else {
-			// Very constrained space, use the larger available space
-			if (spaceBelow > spaceAbove) {
-				dropdownDirection = 'below';
-				maxDropdownHeight = (spaceBelow - 8) + 'px';
-			} else {
-				dropdownDirection = 'above';
-				maxDropdownHeight = (spaceAbove - 8) + 'px';
-			}
-		}
+		dropdownStyle = `
+			position: fixed;
+			left: ${left}px;
+			top: ${top}px;
+			max-height: ${maxHeight}px;
+			z-index: 9998;
+		`;
 	}
 	
 	function handleLogout() {
@@ -90,12 +92,8 @@
 		{#if showDropdown}
 			<div 
 				bind:this={dropdownElement}
-				class="absolute {dropdownPosition} w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-[9998] overflow-auto"
-				class:mt-2={dropdownDirection === 'below'}
-				class:mb-2={dropdownDirection === 'above'}
-				class:bottom-full={dropdownDirection === 'above'}
-				class:top-full={dropdownDirection === 'below'}
-				style="max-height: {maxDropdownHeight}"
+				class="w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 overflow-auto"
+				style={dropdownStyle}
 			>
 				<div class="py-1">
 					<div class="px-4 py-2 text-sm text-gray-900 border-b border-gray-200">
@@ -118,19 +116,19 @@
 
 <svelte:window 
 	on:click={(e) => {
-		if (showDropdown && !e.target.closest('.relative')) {
+		if (showDropdown && !e.target.closest('.relative') && !e.target.closest('[style*="position: fixed"]')) {
 			console.log('Window clicked outside dropdown, closing');
 			showDropdown = false;
 		}
 	}}
 	on:resize={() => {
 		if (showDropdown) {
-			adjustDropdownPosition();
+			positionDropdown();
 		}
 	}}
 	on:scroll={() => {
 		if (showDropdown) {
-			adjustDropdownPosition();
+			positionDropdown();
 		}
 	}}
 />
