@@ -5,22 +5,32 @@
 	let dropdownElement: HTMLDivElement;
 	let buttonElement: HTMLButtonElement;
 	let dropdownStyle = '';
+	let isPositioned = false;
 	
 	function toggleDropdown() {
 		console.log('Dropdown toggle clicked, current state:', showDropdown);
-		showDropdown = !showDropdown;
-		console.log('Dropdown new state:', showDropdown);
 		
-		if (showDropdown) {
-			setTimeout(() => positionDropdown(), 0);
+		if (!showDropdown) {
+			// Pre-calculate position before showing
+			isPositioned = false;
+			showDropdown = true;
+			// Use requestAnimationFrame to ensure DOM is updated
+			requestAnimationFrame(() => {
+				positionDropdown();
+				isPositioned = true;
+			});
+		} else {
+			showDropdown = false;
+			isPositioned = false;
 		}
+		
+		console.log('Dropdown new state:', showDropdown);
 	}
 	
 	function positionDropdown() {
 		if (!dropdownElement || !buttonElement) return;
 		
 		const buttonRect = buttonElement.getBoundingClientRect();
-		const dropdownRect = dropdownElement.getBoundingClientRect();
 		const viewportWidth = window.innerWidth;
 		const viewportHeight = window.innerHeight;
 		
@@ -63,6 +73,7 @@
 			top: ${top}px;
 			max-height: ${maxHeight}px;
 			z-index: 9998;
+			opacity: 1;
 		`;
 	}
 	
@@ -92,8 +103,8 @@
 		{#if showDropdown}
 			<div 
 				bind:this={dropdownElement}
-				class="w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 overflow-auto"
-				style={dropdownStyle}
+				class="w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 overflow-auto transition-opacity duration-150"
+				style={isPositioned ? dropdownStyle : 'position: fixed; left: -9999px; top: -9999px; opacity: 0; z-index: 9998;'}
 			>
 				<div class="py-1">
 					<div class="px-4 py-2 text-sm text-gray-900 border-b border-gray-200">
@@ -122,12 +133,12 @@
 		}
 	}}
 	on:resize={() => {
-		if (showDropdown) {
+		if (showDropdown && isPositioned) {
 			positionDropdown();
 		}
 	}}
 	on:scroll={() => {
-		if (showDropdown) {
+		if (showDropdown && isPositioned) {
 			positionDropdown();
 		}
 	}}
